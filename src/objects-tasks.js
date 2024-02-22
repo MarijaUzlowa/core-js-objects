@@ -364,32 +364,47 @@ function group(array, keySelector, valueSelector) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  result: '',
+  element(value) {
+    this.result += value;
+    return this;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.result = `${this.result}#${value}`;
+    return this;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this.result = `${this.result}.${value}`;
+    return this;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this.result = `${this.result}[${value}]`;
+    return this;
+  },
+  pseudoClass(value) {
+    this.result = `${this.result}:${value}`;
+    return this;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this.result = `${this.result}::${value}`;
+    return this;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const sel1 = `${selector1.stringify()}`;
+    const comb = `${combinator.trim()}`;
+    const sel2 = `${selector2.stringify()}`;
+    this.result = sel1 + comb + sel2;
+    return this;
   },
-
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  stringify() {
+    this.resultCopy = this.result;
+    this.result = '';
+    return this.resultCopy;
   },
 };
 
