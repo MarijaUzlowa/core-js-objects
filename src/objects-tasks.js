@@ -157,10 +157,22 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  let sum = 0;
+  const change25 = 25;
+  let result = true;
+  queue.forEach((bill) => {
+    if (bill === change25) {
+      sum += bill;
+    } else {
+      sum -= bill - change25;
+    }
+    if (sum < 0) {
+      result = false;
+    }
+  });
+  return result;
 }
-
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
  *
